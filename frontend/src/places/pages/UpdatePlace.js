@@ -88,7 +88,7 @@ const UpdatePlace = () => {
     return (
       <div className="center">
         <Card>
-          <h2>Could not find place!</h2>
+          <h2>Place introuvable</h2>
         </Card>
       </div>
     );
@@ -97,7 +97,7 @@ const UpdatePlace = () => {
   if (isLoading) {
     return (
       <div className="center">
-        <h2>Loading...</h2>
+        <h2>Chargement</h2>
       </div>
     );
   }
@@ -126,7 +126,7 @@ const UpdatePlace = () => {
         initialValid={formState.inputs.description.isValid}
       />
       <Button type="submit" disabled={!formState.isValid}>
-        UPDATE PLACE
+        Mettre à jour
       </Button>
     </form>
   );

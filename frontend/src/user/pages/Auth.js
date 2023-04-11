@@ -84,7 +84,7 @@ const Auth = () => {
 
   return (
     <Card className="authentication">
-      <h2>Login Required</h2>
+      <h2>Connexion requise</h2>
       <hr />
       <form onSubmit={authSubmitHandler}>
         {!isLoginMode && (
@@ -102,26 +102,26 @@ const Auth = () => {
           element="input"
           id="email"
           type="email"
-          label="E-Mail"
+          label="Courriel"
           validators={[VALIDATOR_EMAIL()]}
-          errorText="Please enter a valid email address."
+          errorText="Entrez un courriel valide."
           onInput={inputHandler}
         />
         <Input
           element="input"
           id="password"
           type="password"
-          label="Password"
+          label="Mot de passe"
           validators={[VALIDATOR_MINLENGTH(5)]}
-          errorText="Please enter a valid password, at least 5 characters."
+          errorText="Entrez un mot de passe valide, au moins 5 caractères."
           onInput={inputHandler}
         />
         <Button type="submit" disabled={!formState.isValid}>
-          {isLoginMode ? 'LOGIN' : 'SIGNUP'}
+          {isLoginMode ? 'Connexion' : 'Inscription'}
         </Button>
       </form>
       <Button inverse onClick={switchModeHandler}>
-        SWITCH TO {isLoginMode ? 'SIGNUP' : 'LOGIN'}
+        Changer pour {isLoginMode ? 'Inscription' : 'Connexion'}
       </Button>
     </Card>
   );

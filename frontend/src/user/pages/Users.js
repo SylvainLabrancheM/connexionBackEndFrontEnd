@@ -1,19 +1,38 @@
-import React from 'react';
-
-import UsersList from '../components/UsersList';
+import React, { useState, useEffect } from "react";
+import ErrorModal from "../../shared/components/UIElements/ErrorModal";
+import UsersList from "../components/UsersList";
 
 const Users = () => {
-  const USERS = [
-    {
-      id: 'u1',
-      name: 'Max Schwarz',
-      image:
-        'https://images.pexels.com/photos/839011/pexels-photo-839011.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260',
-      places: 3
-    }
-  ];
+  const [error, setError] = useState();
+  const [utilisateurs, setUtilisateurs] = useState([]);
 
-  return <UsersList items={USERS} />;
+  useEffect(() => {
+    const envoyerRequete = async () => {
+      try {
+        const reponse = await fetch("http://localhost:5000/api/utilisateurs");
+
+        const reponseData = await reponse.json();
+        console.log(reponseData);
+        if (!reponse.ok) {
+          throw new Error(reponseData.message);
+        }
+        setUtilisateurs(reponseData.utilisateurs);
+      } catch (err) {
+        setError(err.message);
+      }
+    };
+  }, []);
+
+  const errorHandler = () => {
+    setError(null);
+  };
+
+  return (
+    <React.Fragment>
+      <ErrorModal error={error} onClear={errorHandler} />
+      <UsersList items={utilisateurs} />;
+    </React.Fragment>
+  );
 };
 
 export default Users;

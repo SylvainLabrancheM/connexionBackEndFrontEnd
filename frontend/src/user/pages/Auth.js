@@ -56,24 +56,26 @@ const Auth = () => {
 
   const authSubmitHandler = async event => {
     event.preventDefault();
-
+    
     if (isLoginMode) {
+      
     } else {
       try {
-        const response = await fetch('http://localhost:5000/api/users/signup', {
+        
+        const reponse = await fetch('http://localhost:5000/api/utilisateurs/inscription', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            name: formState.inputs.name.value,
-            email: formState.inputs.email.value,
-            password: formState.inputs.password.value
+            nom: formState.inputs.name.value,
+            courriel: formState.inputs.email.value,
+            motDePasse: formState.inputs.password.value
           })
         });
-
-        const responseData = await response.json();
-        console.log(responseData);
+        
+        const reponseData = await reponse.json();
+        console.log(reponseData);
       } catch (err) {
         console.log(err);
       }

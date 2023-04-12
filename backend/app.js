@@ -11,6 +11,13 @@ const app = express();
 
 app.use(bodyParser.json());
 
+app.use((requete, reponse, next) =>{
+  reponse.setHeader("Access-Control-Allow-Origin", "*");
+  reponse.setHeader("Access-Control-Allow-Headers", "*");
+  reponse.setHeader("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE");
+  next();
+})
+
 app.use("/api/places", placesRoutes);
 app.use("/api/utilisateurs", utilisateursRoutes);
 
@@ -29,7 +36,7 @@ app.use((error, requete, reponse, next) => {
 });
 
 mongoose
-.connect("mongodb://127.0.0.1:27017")
+.connect("mongodb://127.0.0.1:27017/mern")
 .then(() => {
     app.listen(5000)
     console.log("Connexion à la base de données réussie");

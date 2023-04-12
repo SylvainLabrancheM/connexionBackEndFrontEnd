@@ -28,6 +28,7 @@ const getUtilisateurs = async (requete, reponse, next) => {
 };
 
 const inscription = async (requete, reponse, next) => {
+  console.log("lol")
   const { nom, courriel, motDePasse } = requete.body;
 
   let utilisateurExiste;

@@ -10,13 +10,14 @@ import {
   VALIDATOR_REQUIRE,
 } from "../../shared/util/validators";
 import { useForm } from "../../shared/hooks/form-hook";
+import { useHttpClient } from "../../shared/hooks/http-hook";
 import { AuthContext } from "../../shared/context/auth-context";
 import "./Auth.css";
 
 const Auth = () => {
   const auth = useContext(AuthContext);
   const [isLoginMode, setIsLoginMode] = useState(true);
-  const [error, setError] = useState();
+  const { error, sendRequest, clearError } = useHttpClient();
 
   const [formState, inputHandler, setFormData] = useForm(
     {
@@ -60,76 +61,49 @@ const Auth = () => {
     event.preventDefault();
     if (isLoginMode) {
       try {
-        const reponse = await fetch(
+        const reponseData = await sendRequest(
           "http://localhost:5000/api/utilisateurs/connexion",
+          "POST",
+          JSON.stringify({
+            courriel: formState.inputs.email.value,
+            motDePasse: formState.inputs.password.value,
+          }),
           {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              courriel: formState.inputs.email.value,
-              motDePasse: formState.inputs.password.value,
-            }),
+            "Content-Type": "application/json",
           }
         );
-
-        const reponseData = await reponse.json();
-
-        if (!reponse.ok) {
-          throw new Error(reponseData.message);
-        }
 
         console.log(reponseData);
         auth.login();
       } catch (err) {
         console.log(err);
-
-        setError(
-          err.message || "Une erreur s'est produite. Veuillez réessayer."
-        );
       }
     } else {
       try {
-        const reponse = await fetch(
+        const reponseData = await sendRequest(
           "http://localhost:5000/api/utilisateurs/inscription",
+          "POST",
+          JSON.stringify({
+            nom: formState.inputs.name.value,
+            courriel: formState.inputs.email.value,
+            motDePasse: formState.inputs.password.value,
+          }),
           {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              nom: formState.inputs.name.value,
-              courriel: formState.inputs.email.value,
-              motDePasse: formState.inputs.password.value,
-            }),
+            "Content-Type": "application/json",
           }
         );
-
-        const reponseData = await reponse.json();
-
-        if (!reponse.ok) {
-          throw new Error(reponseData.message);
-        }
-
         console.log(reponseData);
         auth.login();
       } catch (err) {
         console.log(err);
-
-        setError(
-          err.message || "Une erreur s'est produite. Veuillez réessayer."
-        );
       }
     }
   };
 
-  const errorHandler = () => {
-    setError(null);
-  };
+
   return (
     <React.Fragment>
-      <ErrorModal error={error} onClear={errorHandler} />
+      <ErrorModal error={error} onClear={clearError} />
       <Card className="authentication">
         <h2>Connexion requise</h2>
         <hr />

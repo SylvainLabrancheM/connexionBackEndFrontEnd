@@ -3,6 +3,7 @@ import React, { useState, useContext } from 'react';
 import Card from '../../shared/components/UIElements/Card';
 import Input from '../../shared/components/FormElements/Input';
 import Button from '../../shared/components/FormElements/Button';
+import ErrorModal from '../../shared/components/UIElements/ErrorModal';
 import {
   VALIDATOR_EMAIL,
   VALIDATOR_MINLENGTH,
@@ -15,6 +16,7 @@ import './Auth.css';
 const Auth = () => {
   const auth = useContext(AuthContext);
   const [isLoginMode, setIsLoginMode] = useState(true);
+  const [error, setError] = useState();
 
   const [formState, inputHandler, setFormData] = useForm(
     {
@@ -75,16 +77,31 @@ const Auth = () => {
         });
         
         const reponseData = await reponse.json();
+        
+        if (!reponse.ok) { 
+          throw new Error(reponseData.message);
+        }
+
         console.log(reponseData);
+        auth.login();
       } catch (err) {
+        
         console.log(err);
+        
+        setError(err.message || "Une erreur s'est produite. Veuillez réessayer.");
       }
     }
 
-    auth.login();
+
+    
   };
 
+  const errorHandler = () => {
+    setError(null);
+  };
   return (
+    <React.Fragment>
+    <ErrorModal error={error} onClear={errorHandler} />
     <Card className="authentication">
       <h2>Connexion requise</h2>
       <hr />
@@ -126,6 +143,7 @@ const Auth = () => {
         Changer pour {isLoginMode ? 'Inscription' : 'Connexion'}
       </Button>
     </Card>
+    </React.Fragment>
   );
 };
 

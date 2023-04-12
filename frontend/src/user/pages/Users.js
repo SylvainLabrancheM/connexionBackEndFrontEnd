@@ -4,7 +4,7 @@ import UsersList from "../components/UsersList";
 
 const Users = () => {
   const [error, setError] = useState();
-  const [utilisateurs, setUtilisateurs] = useState([]);
+  const [utilisateurs, setUtilisateurs] = useState();
 
   useEffect(() => {
     const envoyerRequete = async () => {
@@ -16,11 +16,13 @@ const Users = () => {
         if (!reponse.ok) {
           throw new Error(reponseData.message);
         }
+        console.log(reponseData)
         setUtilisateurs(reponseData.utilisateurs);
       } catch (err) {
         setError(err.message);
       }
     };
+    envoyerRequete();
   }, []);
 
   const errorHandler = () => {
@@ -30,7 +32,7 @@ const Users = () => {
   return (
     <React.Fragment>
       <ErrorModal error={error} onClear={errorHandler} />
-      <UsersList items={utilisateurs} />;
+     {utilisateurs && <UsersList items={utilisateurs} />};
     </React.Fragment>
   );
 };

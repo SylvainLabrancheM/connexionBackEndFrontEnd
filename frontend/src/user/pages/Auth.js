@@ -74,7 +74,7 @@ const Auth = () => {
         );
 
         console.log(reponseData);
-        auth.login();
+        auth.login(reponseData.utilisateur.id);
       } catch (err) {
         console.log(err);
       }
@@ -93,7 +93,7 @@ const Auth = () => {
           }
         );
         console.log(reponseData);
-        auth.login();
+        auth.login(reponseData.utilisateur.id);
       } catch (err) {
         console.log(err);
       }

@@ -22,9 +22,10 @@ const getUtilisateurs = async (requete, reponse, next) => {
   }
 
   reponse.json({
-    utilisateurs: utilisateurs.map(utilisateur =>
+    utilisateurs: utilisateurs.map((utilisateur) =>
       utilisateur.toObject({ getters: true })
-    ) });
+    ),
+  });
 };
 
 const inscription = async (requete, reponse, next) => {
@@ -79,7 +80,10 @@ const connexion = async (requete, reponse, next) => {
     return next(new HttpErreur("Courriel ou mot de passe incorrect", 401));
   }
 
-  reponse.json({ message: "connexion réussie!" });
+  reponse.json({
+    message: "connexion réussie!",
+    utilisateur: utilisateurExiste.toObject({ getters: true }),
+  });
 };
 
 exports.getUtilisateurs = getUtilisateurs;

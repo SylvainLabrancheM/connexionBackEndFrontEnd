@@ -24,10 +24,10 @@ const PlaceList = props => {
           key={place.id}
           id={place.id}
           image={place.image}
-          title={place.title}
+          title={place.titre}
           description={place.description}
           address={place.address}
-          creatorId={place.creator}
+          creatorId={place.createur}
           coordinates={place.location}
           onDelete={props.onDeletePlace}
         />
